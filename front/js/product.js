@@ -28,7 +28,7 @@ fetch(`http://localhost:3000/api/products/${productId}`)
     description.innerHTML += `${dataProductId.description}`
     
     let colors = document.querySelector("#colors")
-    colors.innerHTML += `${displayColors (dataProductId.colors)}`
+    colors.innerHTML += `<option value="">--SVP, choisissez une couleur --</option>${displayColors (dataProductId.colors)}`
     
     //----------------Activer le bouton Ajouter au panier----------------------
     //---> viser le bouton 
@@ -40,6 +40,7 @@ fetch(`http://localhost:3000/api/products/${productId}`)
         // 1) récupérer les données sélectionnées
             // a) où se trouve les données?
         let selectDatas = document.querySelector('select')
+        let quantity = document.querySelector('#quantity')
 
         let product = dataProductId
         product.selectedColors = selectDatas.value
