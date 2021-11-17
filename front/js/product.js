@@ -40,20 +40,32 @@ fetch(`http://localhost:3000/api/products/${productId}`)
         // 1) récupérer les données sélectionnées
             // a) où se trouve les données?
         let selectDatas = document.querySelector('select')
+        if(selectDatas.value == ""){
+            alert("Choisir une couleur")
+            return
+        }
         let quantity = document.querySelector('#quantity')
 
         let product = dataProductId
         product.selectedColors = selectDatas.value
+        product.quantity = quantity.value
         console.log(product)
+
 
         let cart = [];
         if(localStorage.getItem('cart')){
-            cart = [...JSON.parse(localStorage.getItem('panier'))]
+            cart = [...JSON.parse(localStorage.getItem('cart'))]
+        }
+        // il faut comparer le produit avec cexu du panier
+        let index = cart.findIndex(elt => elt._id === product._id && elt.selectedColors === product.selectedColors)
+        if(index >= 0){
+            cart[index].quantity = parseInt(cart[index].quantity) + parseInt(product.quantity)
+        }else{
+            cart.push(product)
         }
         
-        cart.push(product)
         console.log(cart)
-        localStorage.setItem('panier', JSON.stringify(cart))
+        localStorage.setItem('cart', JSON.stringify(cart))
 
     })
 
