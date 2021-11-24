@@ -49,13 +49,19 @@ function displayItemsCart (cart){
 
         localStorage.setItem('cart', JSON.stringify(cart))
         displayItemsCart(cart)
+
+        let totalQuantity = document.getElementById('totalQuantity')
+        let totalPrice = document.getElementById('totalPrice')
+        
+        totalQuantity.innerHTML = numberOfItems(cart)
+        totalPrice.innerHTML = calculTotalPrice(cart)
     })
     })
 
     let newItemQuantity = Array.from(document.getElementsByClassName("itemQuantity"));
-console.log(newItemQuantity)
+    console.log(newItemQuantity)
 
-newItemQuantity.forEach((element, index) => {
+    newItemQuantity.forEach((element, index) => {
 
 
     element.addEventListener('input', function(event){
@@ -71,6 +77,12 @@ newItemQuantity.forEach((element, index) => {
 
      localStorage.setItem('cart', JSON.stringify(cart))
     
+    let totalQuantity = document.getElementById('totalQuantity')
+    let totalPrice = document.getElementById('totalPrice')
+
+    totalQuantity.innerHTML = numberOfItems(cart)
+    totalPrice.innerHTML = calculTotalPrice(cart)
+
     })
 })
 
@@ -82,8 +94,18 @@ newItemQuantity.forEach((element, index) => {
 let totalQuantity = document.getElementById('totalQuantity')
 let totalPrice = document.getElementById('totalPrice')
 
-totalQuantity.innerHTML += "nombre d'articles dans le panier"
+totalQuantity.innerHTML += numberOfItems(cart)
 totalPrice.innerHTML += calculTotalPrice(cart)
+
+function numberOfItems(cart){
+    let sum = 0
+    cart.forEach(element => {
+    console.log(element.quantity)
+    sum += Number(element.quantity)
+    });
+    console.log(sum)
+    return sum
+}
 
 
 function calculTotalPrice (cart){
@@ -94,7 +116,7 @@ function calculTotalPrice (cart){
     total = total + (element.price * element.quantity)
     });
     console.log(total)
-    return total .toFixed(2)
+    return total.toLocaleString()
 }
 
 //------------------------Vérification des inputs----------------------------------------
@@ -102,22 +124,66 @@ function calculTotalPrice (cart){
 function verificationsForm(){
 
     let firstNameInput = document.getElementById('firstName');
+    let lastNameInput = document.getElementById('lastName');
+    let cityInput = document.getElementById('city');
+    let adressInput = document.getElementById('address');
+    let emailInput = document.getElementById('email')
+
     const regexName = /^[A-Za-z]\D*$/
+    const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/
+
     if(!regexName.test(firstNameInput.value)){
-//message d'erreur
-        alert("Entrer un prénom valide")
+        let firstNameValidation = document.querySelector("#firstNameErrorMsg")
+        firstNameValidation.innerHTML += "Veuillez entrer un Prénom valide"
+        return false
+    }else if(!regexName.test(lastNameInput.value)){
+        let lastNameValidation = document.querySelector("#lastNameErrorMsg")
+        lastNameValidation.innerHTML += "Veuillez entrer un Nom valide"
+        return false
+    }else if(!regexName.test(cityInput.value)){
+        let cityValidation = document.querySelector("#cityErrorMsg")
+        cityValidation.innerHTML += "Veuillez entrer une Ville valide"
+        return false
+    }else if( adressInput.value.length < 5){
+       let adressValidation = document.querySelector('#addressErrorMsg')
+       adressValidation.innerHTML += "Veuillez entrer une Adresse valide"
+        return false
+    }else if(!regexEmail.test(emailInput.value)){
+        let emailValidation = document.querySelector('#emailErrorMsg')
+        emailValidation.innerHTML += "Veuillez entrer un Email valide"
         return false
     }
-    
+    return true
 }
+
 
 
 document.querySelector('form').addEventListener('submit', (e)=>{
     e.preventDefault()
-    verificationsForm()
+    const isValid = verificationsForm()
+    if(isValid){
+        alert('il faut faire qqch ici car c\'est bon !')
+
+    }else{
+        alert('Pas bien !')
+    }
 })
 
 
 // Page de confirmation:
 //L'utilisateur doit voir afficher son numéro de commande.
 //Le numéro de commande doit être stocké null part
+
+const contact = {
+    firstName: document.querySelector('#firstName').value,
+    lastName: document.querySelector('#lastName').value,
+    city: document.querySelector('#city').value,
+    address: document.querySelector('#address').value ,
+    email: document.querySelector('#email').value
+    }
+
+console.log(contact)
+
+const products = [{Products IDs from Cart}]
+
+fetch("")
