@@ -40,9 +40,6 @@ function displayItemsCart (cart){
 
     element.addEventListener('click', function(event){
         console.log('click') 
-        //comment viser la class cart__item?
-       // clickDelete = event.target.parentNode.parentNode.parentNode.parentNode;
-        //console.log(clickDelete.parentNode.parentNode.parentNode.parentNode)
         
         cart.splice(index,1)
         console.log(cart)
@@ -107,7 +104,6 @@ function numberOfItems(cart){
     return sum
 }
 
-
 function calculTotalPrice (cart){
     let total = 0
     cart.forEach(element => {
@@ -156,34 +152,58 @@ function verificationsForm(){
     return true
 }
 
+//--------------------------Envoi des données au serveur------------------------------
+
+   /* const products = []
+    cart.forEach(element =>{
+   // console.log(element)
+    productsId = element['_id']
+    products.push(productsId)  
+    })*/
+const products = cart.map(elt => elt['_id'])
+
+console.log(products)
 
 
 document.querySelector('form').addEventListener('submit', (e)=>{
     e.preventDefault()
     const isValid = verificationsForm()
     if(isValid){
-        alert('il faut faire qqch ici car c\'est bon !')
+
+        const contact = {
+            firstName: document.querySelector('#firstName').value,
+            lastName: document.querySelector('#lastName').value,
+            city: document.querySelector('#city').value,
+            address: document.querySelector('#address').value,
+            email: document.querySelector('#email').value
+            }
+        const order = {contact, products}
+        console.log(order)
+    
+        
+         fetch("http://localhost:3000/api/products/order",
+        {
+             method : "POST",
+             headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+              },
+             body : JSON.stringify(order)
+        })
+        .then(function(res){
+             return res.json();
+        })
+        .then(function(data){
+            console.log(data) 
+            //console.log(data.orderId)
+
+        // on traite la commande => etape 11
+        window.location.href=`confirmation.html?orderId=${data.orderId}`
+        
+        //alert(JSON.stringify(data))
+        })
 
     }else{
         alert('Pas bien !')
     }
 })
 
-
-// Page de confirmation:
-//L'utilisateur doit voir afficher son numéro de commande.
-//Le numéro de commande doit être stocké null part
-
-const contact = {
-    firstName: document.querySelector('#firstName').value,
-    lastName: document.querySelector('#lastName').value,
-    city: document.querySelector('#city').value,
-    address: document.querySelector('#address').value ,
-    email: document.querySelector('#email').value
-    }
-
-console.log(contact)
-
-const products = [{Products IDs from Cart}]
-
-fetch("")
