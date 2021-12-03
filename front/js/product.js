@@ -31,14 +31,10 @@ fetch(`http://localhost:3000/api/products/${productId}`)
     colors.innerHTML += `<option value="">--SVP, choisissez une couleur --</option>${displayColors (dataProductId.colors)}`
     
     //----------------Activer le bouton Ajouter au panier----------------------
-    //---> viser le bouton 
+    
     let btnAddToCart = document.querySelector("#addToCart")
-    //---> écouter le bouton au click pour:
-    // 1) récupérer les données sélectionnées
-    // 2) stocker les données dans le lcal storage
+
     btnAddToCart.addEventListener('click', function(e){
-        // 1) récupérer les données sélectionnées
-            // a) où se trouve les données?
         let selectDatas = document.querySelector('select')
         if(selectDatas.value == ""){
             alert("Choisir une couleur")
@@ -56,7 +52,7 @@ fetch(`http://localhost:3000/api/products/${productId}`)
         if(localStorage.getItem('cart')){
             cart = [...JSON.parse(localStorage.getItem('cart'))]
         }
-        // il faut comparer le produit avec cexu du panier
+       
         let index = cart.findIndex(elt => elt._id === product._id && elt.selectedColors === product.selectedColors)
         if(index >= 0){
             cart[index].quantity = parseInt(cart[index].quantity) + parseInt(product.quantity)

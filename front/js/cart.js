@@ -33,7 +33,7 @@ function displayItemsCart (cart){
         </article> `
 
     });
-
+    //------------------Suppression des articles--------------------
     let btnSupprimer = Array.from(document.getElementsByClassName("deleteItem"))
 
     btnSupprimer.forEach((element, index) => {
@@ -54,7 +54,7 @@ function displayItemsCart (cart){
         totalPrice.innerHTML = calculTotalPrice(cart)
     })
     })
-
+    //------------------------------Ajout d'articles-----------------------
     let newItemQuantity = Array.from(document.getElementsByClassName("itemQuantity"));
     console.log(newItemQuantity)
 
@@ -160,6 +160,7 @@ function verificationsForm(){
     productsId = element['_id']
     products.push(productsId)  
     })*/
+    // Revient à faire le code ci-dessous:
 const products = cart.map(elt => elt['_id'])
 
 console.log(products)
@@ -194,16 +195,13 @@ document.querySelector('form').addEventListener('submit', (e)=>{
         })
         .then(function(data){
             console.log(data) 
-            //console.log(data.orderId)
-
-        // on traite la commande => etape 11
+ 
         window.location.href=`confirmation.html?orderId=${data.orderId}`
         
-        //alert(JSON.stringify(data))
         })
 
     }else{
-        alert('Pas bien !')
+        alert('Erreur !')
     }
 })
 
