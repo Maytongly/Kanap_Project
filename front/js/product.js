@@ -41,6 +41,11 @@ fetch(`http://localhost:3000/api/products/${productId}`)
             return
         }
         let quantity = document.querySelector('#quantity')
+        if(quantity.value == "" || "0"){
+            alert("Choisir une quantité")
+            return
+        }
+
 
         let product = dataProductId
         product.selectedColors = selectDatas.value
