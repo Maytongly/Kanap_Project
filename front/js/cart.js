@@ -192,6 +192,7 @@ document.querySelector('form').addEventListener('submit', (e)=>{
         })
         .then(function(res){
              return res.json();
+             
         })
         .then(function(data){
             console.log(data) 
